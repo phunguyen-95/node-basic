@@ -1,4 +1,7 @@
 const express = require("express");
+// eslint-disable-next-line no-undef
+
+express().use("/public", express.static("public"));
 
 const bookRouter = express.Router();
 
@@ -34,28 +37,25 @@ const books = [
   },
 ];
 
-bookRouter.route("/").get((req, res) => {
-  res.render("books", {
-    title: "Books",
-    nav: [
-      { link: "/authors", title: "Auhtors" },
-      { link: "/books", title: "Books" },
-    ],
-    books,
+function router(nav) {
+  bookRouter.route("/").get((req, res) => {
+    res.render("books", {
+      title: "Books",
+      nav,
+      books,
+    });
   });
-});
 
-bookRouter.route("/:id").get((req, res) => {
-  const id = req.params.id;
-
-  res.render("singleBook", {
-    title: "Single book",
-    nav: [
-      { link: "/authors", title: "Auhtors" },
-      { link: "/books", title: "Books" },
-    ],
-    books: books[id],
+  bookRouter.route("/:id").get((req, res) => {
+    const id = req.params.id;
+    res.render("singleBook", {
+      title: "Single book",
+      nav,
+      books: books[id],
+    });
   });
-});
+  
+  return bookRouter;
+}
 
-module.exports = bookRouter;
+module.exports = router;
