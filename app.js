@@ -2,6 +2,7 @@ const express = require("express");
 const chalk = require("chalk");
 const morgan = require("morgan");
 const path = require("path");
+const bookRouter = require('./routes/bookRoutes')
 
 const app = express();
 // eslint-disable-next-line no-undef
@@ -10,15 +11,19 @@ app.use(morgan("tiny"));
 // eslint-disable-next-line no-undef
 app.use(express.static(path.join(__dirname, "public")));
 // eslint-disable-next-line no-undef
-app.use("views", "./src/views");
+app.set("views", path.join(__dirname, "/views"));
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
-  // eslint-disable-next-line no-undef
-  const htmlLocation = path.join(__dirname, "views/index.ejs");
+app.use('/books', bookRouter);
 
-  res.render("index", { nav: ["Books", "Authors"], title: "Library" });
-  // res.sendfile(htmlLocation);
+app.get("/", (req, res) => {
+  res.render("index", {
+    nav: [
+      { link: "/authors", title: "Auhtors" },
+      { link: "/books", title: "Books" },
+    ],
+    title: "Library",
+  });
 });
 
 app.listen(port, () => {
