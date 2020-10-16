@@ -16,7 +16,9 @@
     "ejs": "^3.1.5",
     "eslint-config-airbnb": "^18.2.0",
     "express": "^4.17.1",
+    "mongodb": "^3.6.2",
     "morgan": "^1.10.0",
+    "mssql": "^6.2.3",
     "nodemon": "^2.0.4",
     "path": "^0.12.7"
   },
